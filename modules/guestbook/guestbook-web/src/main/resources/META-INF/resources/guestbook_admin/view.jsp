@@ -1,0 +1,34 @@
+<%@include file="../init.jsp"%>
+
+<liferay-ui:success key="guestbookAdded" message="guestbook-added" />
+<liferay-ui:success key="guestbookUpdated" message="guestbook-updated" />
+<liferay-ui:success key="guestbookDeleted" message="guestbook-deleted" />
+
+<aui:button-row cssClass="guestbook-admin-buttons">
+    <portlet:renderURL var="addGuestbookURL">
+        <portlet:param name="mvcPath" value="/guestbook_admin/edit_guestbook.jsp" />
+        <portlet:param name="redirect" value="<%= "currentURL" %>" />
+    </portlet:renderURL>
+
+    <aui:button onClick="<%= addGuestbookURL.toString() %>" value="Add Guestbook" />
+</aui:button-row>
+
+<br>
+<br>
+
+<liferay-ui:search-container total="<%= GuestbookLocalServiceUtil.getGuestbooksCount(scopeGroupId) %>">
+    <liferay-ui:search-container-results results="<%= GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd()) %>" />
+
+    <liferay-ui:search-container-row className="com.liferay.docs.guestbook.model.Guestbook" modelVar="guestbook">
+
+        <liferay-ui:search-container-column-text property="name" />
+        
+        <liferay-ui:search-container-column-status property="status" />
+
+        <liferay-ui:search-container-column-jsp align="right"  path="/guestbook_admin/guestbook_actions.jsp" />
+
+    </liferay-ui:search-container-row>
+
+    <liferay-ui:search-iterator markupView="lexicon"/>
+</liferay-ui:search-container>
+
